@@ -1,4 +1,6 @@
 import pygame
+print(pygame.__version__)
+
 from settings import *
 
 
