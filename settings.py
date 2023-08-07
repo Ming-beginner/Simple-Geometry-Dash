@@ -14,6 +14,6 @@ IMAGES = {
     "decrease_volume": "graphics/buttons/volume_decrease.png",
 }
 
-SOUNDS = ["audio/pygame_soundtrack_1.wav",
-          "audio/pygame_soundtrack_2.wav", "audio/pygame_soundtrack_3.wav"]
+SOUNDS = ["audio/pygame_soundtrack_1_2p hon.wav", "audio/pygame_soundtrack_Né.wav"
+            "audio/pygame_soundtrack_3.wav"]
 DEFAULT_VOLUME = 0.5
