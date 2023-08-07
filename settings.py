@@ -12,8 +12,25 @@ IMAGES = {
     "close_button": "graphics/buttons/close.png",
     "increase_volume": "graphics/buttons/volume_increase.png",
     "decrease_volume": "graphics/buttons/volume_decrease.png",
+    "level_button": "graphics/buttons/level.png",
+    "return_button": "graphics/buttons/return.png",
 }
 
 SOUNDS = ["audio/pygame_soundtrack_1.wav",
           "audio/pygame_soundtrack_2.wav", "audio/pygame_soundtrack_3.wav"]
-DEFAULT_VOLUME = 0.5
+DEFAULT_VOLUME = 5
+FONT = "font/font.ttf"
+LEVELS = [
+    {
+        "id": 1,
+        "name": "Level 1",
+    },
+    {
+        "id": 2,
+        "name": "Level 2",
+    },
+    {
+        "id": 3,
+        "name": "Level 3",
+    }
+]

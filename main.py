@@ -6,6 +6,7 @@ from homeScreen.PlayButton import PlayButton
 from homeScreen.SettingButton import SettingButton
 from homeScreen.GreetingText import GreetingText
 from settingScreen.Screen import SettingScreen
+from levelScreen.Screen import LevelScreen
 
 
 pygame.init()
@@ -28,9 +29,14 @@ greeting_text = GreetingText()
 screen_menu = pygame.sprite.Group()
 screen_menu.add(play_button, setting_button, greeting_text)
 
+# Background music
+pygame.mixer.music.load(SOUNDS[randint(0, len(SOUNDS) - 1)])
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(DEFAULT_VOLUME/10)
 
 # Setting menu
 setting_screen = SettingScreen()
+level_screen = LevelScreen()
 
 # game loop
 running = True
@@ -43,8 +49,11 @@ while running:
         play_button.hovered = play_button.rect.collidepoint(mouse_pos)
         play_button.show = not setting_screen.show
         setting_button.hovered = setting_button.rect.collidepoint(mouse_pos)
-        if event.type == pygame.MOUSEBUTTONDOWN and setting_button.rect.collidepoint(mouse_pos):
-            setting_screen.show = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if setting_button.rect.collidepoint(mouse_pos):
+                setting_screen.show = True
+            if play_button.rect.collidepoint(mouse_pos):
+                level_screen.show = True
 
     screen.fill("#ffffff")
     screen.blit(background, (0, 0))
@@ -52,5 +61,6 @@ while running:
     screen_menu.draw(screen)
     screen_menu.update()
     setting_screen.draw(screen)
+    level_screen.draw(screen)
     pygame.display.update()
     clock.tick(FPS)

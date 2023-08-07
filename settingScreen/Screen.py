@@ -18,10 +18,7 @@ class SettingScreen(pygame.sprite.Sprite):
         self.close_button_rect = self.close_button_surf.get_rect(
             topleft=(WIDTH/6, HEIGHT/6))
         # Setting background music
-        self.volume = 5
-        self.background_music = pygame.mixer.Sound(SOUNDS[randint(0, 2)])
-        self.background_music.play(-1)
-        self.background_music.set_volume(self.volume/10)
+        self.volume = DEFAULT_VOLUME
         self.increase_volume_button_surf = pygame.transform.scale(pygame.image.load(
             IMAGES["increase_volume"]).convert_alpha(), (100, 100))
         self.increase_volume_button_rect = self.increase_volume_button_surf.get_rect(
@@ -30,7 +27,7 @@ class SettingScreen(pygame.sprite.Sprite):
             IMAGES["decrease_volume"]).convert_alpha(), (100, 100))
         self.decrease_volume_button_rect = self.decrease_volume_button_surf.get_rect(
             center=(WIDTH/2-200, 400))
-        self.font = pygame.font.Font('font/OXYGENE1.TTF', 55)
+        self.font = pygame.font.Font(FONT, 55)
         self.volume_surf = self.font.render(
             str(self.volume), False, "#ffffff")
         self.volume_rect = self.volume_surf.get_rect(center=(WIDTH/2, 400))
@@ -44,7 +41,7 @@ class SettingScreen(pygame.sprite.Sprite):
         self.volume_surf = self.font.render(
             str(round(self.volume)), False, "#ffffff")
         self.volume_rect = self.volume_surf.get_rect(center=(WIDTH/2, 400))
-        self.background_music.set_volume(round(self.volume/10, 1))
+        pygame.mixer.music.set_volume(round(self.volume/10, 1))
 
     def increase_volume(self):
         if self.volume < 10:
