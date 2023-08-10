@@ -1,5 +1,9 @@
+VERTICLE_TILE_NUMBER = 15
+TILE_SIZE = 64
+
+HEIGHT = VERTICLE_TILE_NUMBER * TILE_SIZE
 WIDTH = 1280
-HEIGHT = 720
+
 WINDOW_SIZE = (WIDTH, HEIGHT)
 FPS = 60
 
@@ -36,10 +40,8 @@ LEVELS = [
 ]
 
 
-vertical_tile_number = 15
-tile_size = 64
-
-screen_height = vertical_tile_number * tile_size
-screen_width = 1280 
-
-
+LEVEL_1 = {
+    'Layer_land': '../levels/1/level_1_Tiles 2.csv',
+    'Spy': '../levels/1/level_1_Black triangle.csv',
+    'Tree1': '../levels/1/level_1_Tree1.csv'
+}
