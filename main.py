@@ -2,17 +2,21 @@ import pygame
 import sys
 from random import randint
 from settings import *
+from level import Level 
 from homeScreen.PlayButton import PlayButton
 from homeScreen.SettingButton import SettingButton
 from homeScreen.GreetingText import GreetingText
 from settingScreen.Screen import SettingScreen
 from levelScreen.Screen import LevelScreen
+from game_data import level_1
 
 
 pygame.init()
 
 screen = pygame.display.set_mode(WINDOW_SIZE)
 clock = pygame.time.Clock()
+level = Level(level_1,screen)
+
 
 
 # Background
@@ -62,5 +66,6 @@ while running:
     screen_menu.update()
     setting_screen.draw(screen)
     level_screen.draw(screen)
+    level.run()
     pygame.display.update()
     clock.tick(FPS)
