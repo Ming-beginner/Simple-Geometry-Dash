@@ -1,7 +1,7 @@
 VERTICLE_TILE_NUMBER = 15
-TILE_SIZE = 64
+TILE_SIZE= 64
 
-HEIGHT = VERTICLE_TILE_NUMBER * TILE_SIZE
+HEIGHT = 720
 WIDTH = 1280
 
 WINDOW_SIZE = (WIDTH, HEIGHT)
@@ -28,6 +28,7 @@ LEVELS = [
     {
         "id": 1,
         "name": "Level 1",
+        'terrain': 'levelData/level1/level_1.tmx'
     },
     {
         "id": 2,
@@ -39,9 +40,3 @@ LEVELS = [
     }
 ]
 
-
-LEVEL_1 = {
-    'Layer_land': '../levels/1/level_1_Tiles 2.csv',
-    'Spy': '../levels/1/level_1_Black triangle.csv',
-    'Tree1': '../levels/1/level_1_Tree1.csv'
-}

@@ -2,19 +2,18 @@ import pygame
 import sys
 from random import randint
 from settings import *
-from level import Level
 from homeScreen.PlayButton import PlayButton
 from homeScreen.SettingButton import SettingButton
 from homeScreen.GreetingText import GreetingText
 from settingScreen.Screen import SettingScreen
 from levelScreen.Screen import LevelScreen
+from levelScreen.Screen import Level
 
 
 pygame.init()
 
 screen = pygame.display.set_mode(WINDOW_SIZE)
 clock = pygame.time.Clock()
-level = Level(LEVEL_1, screen)
 
 
 # Background
@@ -39,6 +38,8 @@ pygame.mixer.music.set_volume(DEFAULT_VOLUME/10)
 # Setting menu
 setting_screen = SettingScreen()
 level_screen = LevelScreen()
+tile_groups = pygame.sprite.Group()
+level1 = Level(LEVELS[0], tile_groups)
 
 # game loop
 running = True
@@ -55,16 +56,17 @@ while running:
             if setting_button.rect.collidepoint(mouse_pos):
                 setting_screen.show = True
             if play_button.rect.collidepoint(mouse_pos):
-                level_screen.show = True
-
+                #level_screen.show = True
+                pass
     screen.fill("#ffffff")
     screen.blit(background, (0, 0))
     screen.blit(overlay, (0, 0))
-    screen_menu.draw(screen)
-    screen_menu.update()
-    setting_screen.draw(screen)
-    level_screen.draw(screen)
-    level.run()
+    # screen_menu.draw(screen)
+    # screen_menu.update()
+    # setting_screen.draw(screen)
+    # level_screen.draw(screen)
+    tile_groups.draw(screen)
+    tile_groups.update()
     pygame.display.update()
     clock.tick(FPS)
  
