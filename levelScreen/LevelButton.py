@@ -16,7 +16,4 @@ class LevelButton(pygame.sprite.Sprite):
 
     def draw(self, window):
         self.image.blit(self.level, self.level_rect)
-        if pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.mixer.music.stop()
-            pass
         window.blit(self.image, self.rect)

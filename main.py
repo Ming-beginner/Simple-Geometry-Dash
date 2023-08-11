@@ -38,8 +38,6 @@ pygame.mixer.music.set_volume(DEFAULT_VOLUME/10)
 # Setting menu
 setting_screen = SettingScreen()
 level_screen = LevelScreen()
-tile_groups = pygame.sprite.Group()
-level1 = Level(LEVELS[0], tile_groups)
 
 # game loop
 running = True
@@ -56,17 +54,13 @@ while running:
             if setting_button.rect.collidepoint(mouse_pos):
                 setting_screen.show = True
             if play_button.rect.collidepoint(mouse_pos):
-                #level_screen.show = True
-                pass
+                level_screen.show = True
     screen.fill("#ffffff")
     screen.blit(background, (0, 0))
     screen.blit(overlay, (0, 0))
-    # screen_menu.draw(screen)
-    # screen_menu.update()
-    # setting_screen.draw(screen)
-    # level_screen.draw(screen)
-    tile_groups.draw(screen)
-    tile_groups.update()
+    screen_menu.draw(screen)
+    screen_menu.update()
+    setting_screen.draw(screen)
+    level_screen.draw(screen)
     pygame.display.update()
     clock.tick(FPS)
- 

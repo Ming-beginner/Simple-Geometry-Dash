@@ -1,5 +1,6 @@
+import pygame
 VERTICLE_TILE_NUMBER = 15
-TILE_SIZE= 64
+TILE_SIZE = 64
 
 HEIGHT = 720
 WIDTH = 1280
@@ -18,6 +19,8 @@ IMAGES = {
     "decrease_volume": "graphics/buttons/volume_decrease.png",
     "level_button": "graphics/buttons/level.png",
     "return_button": "graphics/buttons/return.png",
+    "pause_button": "graphics/buttons/pause.png",
+    "home_button": "graphics/buttons/home.png",
 }
 
 SOUNDS = ["audio/pygame_soundtrack_1.wav",
@@ -33,10 +36,13 @@ LEVELS = [
     {
         "id": 2,
         "name": "Level 2",
+        'terrain': 'levelData/level1/level_1.tmx'
     },
     {
         "id": 3,
         "name": "Level 3",
+        'terrain': 'levelData/level1/level_1.tmx'
     }
 ]
-
+PLAYER = "graphics/player/player.png"
+GRAVITY = pygame.math.Vector2(0, 0.86)

@@ -1,8 +1,13 @@
-from csv import reader
+import pygame
+from settings import SOUNDS
+from random import randint
 
-def import_csv_layout(path):
-    with open(path) as map: 
-        level = reader(map)
-        
-        for row in level:
-            print(row)
+
+def click(rect):
+    return pygame.mouse.get_pressed()[0] and rect.collidepoint(pygame.mouse.get_pos())
+
+
+def play_bg_music():
+    pygame.mixer.music.load(
+        SOUNDS[randint(0, len(SOUNDS) - 1)])
+    pygame.mixer.music.play(-1)

@@ -1,8 +1,9 @@
 import pygame
 from settings import *
+from support import click, play_bg_music
+from random import randint
 from .LevelButton import LevelButton
 from .Level import Level
-
 
 
 class LevelScreen(pygame.sprite.Sprite):
@@ -25,14 +26,22 @@ class LevelScreen(pygame.sprite.Sprite):
         self.image.blit(self.return_button, self.return_button_rect)
         self.image.blit(self.text, self.text_rect)
         self.tile_groups = pygame.sprite.Group()
-        self.level1 = Level(LEVELS[0], self.tile_groups)
+        self.game_play = None
 
     def draw(self, window):
-        if self.show:
-            # if pygame.mouse.get_pressed()[0]:
-            #     if self.return_button_rect.collidepoint(pygame.mouse.get_pos()):
-            #         self.show = False
-            # for level in LEVELS:
-            #     level_button = LevelButton(level["id"])
-            #     level_button.draw(self.image)
+        if self.show and not self.game_play:
+            if click(self.return_button_rect):
+                self.show = False
+                play_bg_music()
+            for level in LEVELS:
+                level_button = LevelButton(level["id"])
+                level_button.draw(self.image)
+                if click(level_button.rect):
+                    pygame.mixer.music.stop()
+                    self.game_play = Level(level)
             window.blit(self.image, self.rect)
+        if self.game_play:
+            self.game_play.draw(window)
+            if not self.game_play.playing:
+                self.game_play = None
+                play_bg_music()

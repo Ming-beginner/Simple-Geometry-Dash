@@ -1,7 +1,6 @@
+from settings import *
 import pygame
 print(pygame.__version__)
-
-from settings import *
 
 
 class SettingButton(pygame.sprite.Sprite):
@@ -9,14 +8,14 @@ class SettingButton(pygame.sprite.Sprite):
         self.pos = (WIDTH/2+200, 500)
         super().__init__()
         self.image = pygame.transform.scale(
-            pygame.image.load(IMAGES["setting_button"]), (125, 125))
+            pygame.image.load(IMAGES["setting_button"]), (110, 110))
         self.rect = self.image.get_rect(center=self.pos)
         self.hovered = False
 
     def update(self):
         if(self.hovered):
             self.image = pygame.transform.scale(
-                pygame.image.load(IMAGES["setting_button"]), (130, 130))
+                pygame.image.load(IMAGES["setting_button"]), (115, 115))
         else:
             self.image = pygame.transform.scale(
-                pygame.image.load(IMAGES["setting_button"]), (125, 125))
+                pygame.image.load(IMAGES["setting_button"]), (110, 110))

@@ -1,7 +1,6 @@
 import pygame
 from settings import *
-from random import randint
-from math import ceil
+from support import click
 
 
 class SettingScreen(pygame.sprite.Sprite):
@@ -11,7 +10,6 @@ class SettingScreen(pygame.sprite.Sprite):
             (WIDTH*2/3, HEIGHT*2/3))
         self.surface.fill("#080907")
         self.show = False
-
         # Setting close button
         self.close_button_surf = pygame.transform.scale(
             pygame.image.load(IMAGES["close_button"]).convert_alpha(), (50, 50))
@@ -65,10 +63,9 @@ class SettingScreen(pygame.sprite.Sprite):
                         self.increase_volume_button_rect)
             window.blit(self.decrease_volume_button_surf,
                         self.decrease_volume_button_rect)
-            if pygame.mouse.get_pressed()[0]:
-                if self.close_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.show = False
-                elif self.increase_volume_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.increase_volume()
-                elif self.decrease_volume_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.decrease_volume()
+            if click(self.close_button_rect):
+                self.show = False
+            elif click(self.increase_volume_button_rect):
+                self.increase_volume()
+            elif click(self.decrease_volume_button_rect):
+                self.decrease_volume()
