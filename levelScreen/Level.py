@@ -11,6 +11,12 @@ class Tile(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.transform.scale(surf.convert_alpha(), (64, 64))
         self.rect = self.image.get_rect(topleft=pos)
+<<<<<<< HEAD
+=======
+    
+    def update(self):
+        self.rect.x -= 5
+>>>>>>> 3830e9e3dc35205efc9f746822d09cf96dfba473
 
     def update(self):
         self.rect.x -= 5
