@@ -11,7 +11,7 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
     
     def update(self):
-        self.rect.x -= 10
+        self.rect.x -= 5
 
 class Level:
     def __init__(self, data, groups):

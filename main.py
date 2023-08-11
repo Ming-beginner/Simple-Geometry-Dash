@@ -68,5 +68,5 @@ while running:
     tile_groups.draw(screen)
     tile_groups.update()
     pygame.display.update()
-    clock.tick(FPS)
+    clock.tick(FPS) 
  

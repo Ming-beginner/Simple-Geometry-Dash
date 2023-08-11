@@ -25,7 +25,6 @@ class LevelScreen(pygame.sprite.Sprite):
         self.image.blit(self.return_button, self.return_button_rect)
         self.image.blit(self.text, self.text_rect)
         self.tile_groups = pygame.sprite.Group()
-        self.level1 = Level(LEVELS[0], self.tile_groups)
 
     def draw(self, window):
         if self.show:
