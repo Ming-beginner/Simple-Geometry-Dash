@@ -2,7 +2,6 @@
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="400" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="81">
  <tileset firstgid="1" source="portal.tsx"/>
  <tileset firstgid="2" source="portal.tsx"/>
- <tileset firstgid="853" source="Tiles 2.tsx"/>
  <tileset firstgid="1237" source="objects.tsx"/>
  <objectgroup id="3" name="portal">
   <object id="3" gid="1241" x="6214.74" y="275.556" width="172.304" height="218.078"/>

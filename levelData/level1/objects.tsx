@@ -17,15 +17,15 @@
   <image width="370" height="600" source="portal.png"/>
  </tile>
  <tile id="5">
-  <image width="7" height="5" source="../pygame.graphics/craftpix-net-753737-free-green-zone-tileset-pixel-art/3 Objects/Grass/8.png"/>
+  <image width="7" height="5" source="graphics/objects/8.png"/>
  </tile>
  <tile id="6">
-  <image width="7" height="7" source="../pygame.graphics/craftpix-net-753737-free-green-zone-tileset-pixel-art/3 Objects/Grass/7.png"/>
+  <image width="7" height="7" source="graphics/objects/7.png"/>
  </tile>
  <tile id="7">
-  <image width="7" height="5" source="../pygame.graphics/craftpix-net-753737-free-green-zone-tileset-pixel-art/3 Objects/Grass/6.png"/>
+  <image width="7" height="5" source="graphics/objects/6.png"/>
  </tile>
  <tile id="8">
-  <image width="7" height="6" source="../pygame.graphics/craftpix-net-753737-free-green-zone-tileset-pixel-art/3 Objects/Grass/15.png"/>
+  <image width="7" height="6" source="graphics/objects/15.png"/>
  </tile>
 </tileset>
