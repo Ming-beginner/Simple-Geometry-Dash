@@ -28,7 +28,7 @@ LEVELS = [
     {
         "id": 1,
         "name": "Level 1",
-        'terrain': 'levelData/level1/level_1.tmx'
+        'terrain': 'levelData/level1/level_1_(fix).tmx'
     },
     {
         "id": 2,
