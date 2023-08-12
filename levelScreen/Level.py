@@ -9,11 +9,18 @@ from settingScreen.Screen import SettingScreen
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(groups)
-        self.image = pygame.transform.scale(surf.convert_alpha(), (64, 64))
+        self.image = pygame.transform.scale(
+            surf.convert_alpha(), (TILE_SIZE, TILE_SIZE))
         self.rect = self.image.get_rect(topleft=pos)
 
     def update(self):
         self.rect.x -= 5
+
+
+class Object(Tile):
+    def __init__(self, pos, surf, groups):
+        super().__init__(pos, surf, groups)
+        self.image = surf.convert_alpha()
 
 
 class PauseScreen(SettingScreen):
@@ -62,14 +69,14 @@ class SumarizeScreen(SettingScreen):
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         self.image = pygame.transform.scale(
-            pygame.image.load(PLAYER), (64, 64))
+            pygame.image.load(PLAYER), (TILE_SIZE, TILE_SIZE))
         self.rect = self.image.get_rect(midbottom=pos)
         self.win = False
         self.died = False
         self.on_ground = False
         self.vel = Vector2(0, 0)
         self.offset = 100
-        self.jump_amount = 17
+        self.jump_amount = 16
 
     def jump(self):
         self.vel.y = -self.jump_amount
@@ -77,25 +84,24 @@ class Player(pygame.sprite.Sprite):
     def collide(self, yvel, tiles):
         for tile in tiles:
             if pygame.sprite.collide_rect(self, tile):
-                print("collided", yvel)
+                print(yvel)
                 if yvel > 0:
                     self.rect.bottom = tile.rect.top
                     self.vel.y = 0
                     self.on_ground = True
                 elif yvel < 0:
                     self.rect.top = tile.rect.bottom
-                    self.died = True
                 else:
                     self.vel.x = 0
-                    self.rect.right = tile.rect.left  # dont let player go through walls
-                    self.died = True
+                    self.rect.right = tile.rect.left
 
     def update(self):
         keys = pygame.key.get_pressed()
         if (keys[pygame.K_SPACE] or keys[pygame.K_UP]) and self.on_ground:
             self.jump()
-        if self.rect.bottom == HEIGHT:
-            self.died = True
+        if self.rect.bottom >= HEIGHT:
+            self.rect.bottom = HEIGHT
+            self.on_ground = True
         if not self.on_ground:
             self.vel += GRAVITY
             if self.vel.y > 100:
@@ -103,6 +109,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.top += self.vel.y
         if self.rect.bottom >= HEIGHT:
             self.rect.bottom = HEIGHT
+        self.on_ground = False
 
     def draw(self, window):
         window.blit(self.image, self.rect)
@@ -116,7 +123,7 @@ class Level(pygame.sprite.Sprite):
             pygame.image.load(IMAGES["background1"]), WINDOW_SIZE)
         self.rect = self.surface.get_rect(topleft=(0, 0))
         self.data = data
-        self.player = Player((150, HEIGHT-320))
+        self.player = Player((200, HEIGHT-320))
         self.start_game()
         self.pause = False
         self.playing = True
@@ -131,12 +138,18 @@ class Level(pygame.sprite.Sprite):
         pygame.mixer.music.play()
         tmx_data = load_pygame(self.path)
         for layer in tmx_data.visible_layers:
+            print(layer)
             if hasattr(layer, "data"):
                 for x, y, surf in layer.tiles():
                     if surf:
-                        pos = (x*TILE_SIZE, y*TILE_SIZE+HEIGHT-TILE_SIZE *
-                               VERTICLE_TILE_NUMBER+64)
-                        Tile(pos=pos, surf=surf, groups=self.tile_group)
+                        pos = (x*TILE_SIZE, y*TILE_SIZE)
+                        Tile(pos, surf, self.tile_group)
+        for obj in tmx_data.objects:
+            pos = (obj.x, obj.y)
+            surf = obj.image
+            print(surf)
+            if surf:
+                Object(pos, surf, self.tile_group)
 
     def draw(self, window):
         if self.playing:
@@ -155,7 +168,6 @@ class Level(pygame.sprite.Sprite):
                 self.pause_screen.show = True
                 pygame.mixer.music.pause()
             if self.player.died:
-                self.handle_lost()
-                # pygame.mixer.music.stop()
+                pygame.mixer.music.stop()
         self.pause = self.pause_screen.show
         self.playing = not self.pause_screen.return_home and not self.player.died

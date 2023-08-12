@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="300" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="1">
  <tileset firstgid="1" source="level_1.tsx"/>
- <tileset firstgid="387" source="Tree1.tsx"/>
  <objectgroup id="6" name="tree"/>
  <objectgroup id="4" name="grass"/>
  <layer id="8" name="Spy" width="300" height="15">
