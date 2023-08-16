@@ -9,5 +9,5 @@ def click(rect):
 
 def play_bg_music():
     pygame.mixer.music.load(
-        SOUNDS[randint(0, len(SOUNDS) - 1)])
+        SOUNDS[randint(0, len(SOUNDS))])
     pygame.mixer.music.play(-1)
