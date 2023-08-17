@@ -60,10 +60,29 @@ class PauseScreen(SettingScreen):
                 pygame.mixer.music.stop()
 
 
-class SumarizeScreen(SettingScreen):
-    def __init__(self, result):
+class SumarizeScreen(PauseScreen):
+    def __init__(self):
         super().__init__()
-        self.win = result == "win"
+        self.result = "lose"
+        self.title = "YOU WON!!!" if self.result == "win" else "YOU LOST!!!"
+        self.text_surf = self.font.render(
+            self.title, False, "#ffffff")
+        self.text_rect = self.text_surf.get_rect(
+            center=(WIDTH/2, HEIGHT/6+50))
+        self.home = pygame.transform.scale(pygame.image.load(
+            IMAGES["home_button"]).convert_alpha(), (200, 200))
+        self.home_rect = self.home.get_rect(
+            center=(WIDTH/2, HEIGHT/2))
+
+    def draw(self, window):
+        if self.show:
+            window.blit(self.surface, (WIDTH/6, HEIGHT/6))
+            window.blit(self.text_surf, self.text_rect)
+            window.blit(self.home, self.home_rect)
+            if click(self.home_rect):
+                self.return_home = True
+                self.show = False
+                pygame.mixer.music.stop()
 
 
 class Player(pygame.sprite.Sprite):
@@ -84,24 +103,24 @@ class Player(pygame.sprite.Sprite):
     def collide(self, yvel, tiles):
         for tile in tiles:
             if pygame.sprite.collide_rect(self, tile):
-                print(yvel)
                 if yvel > 0:
                     self.rect.bottom = tile.rect.top
                     self.vel.y = 0
                     self.on_ground = True
                 elif yvel < 0:
                     self.rect.top = tile.rect.bottom
+                    self.died = True
                 else:
                     self.vel.x = 0
                     self.rect.right = tile.rect.left
+                    self.died = True
 
     def update(self):
         keys = pygame.key.get_pressed()
         if (keys[pygame.K_SPACE] or keys[pygame.K_UP]) and self.on_ground:
             self.jump()
         if self.rect.bottom >= HEIGHT:
-            self.rect.bottom = HEIGHT
-            self.on_ground = True
+            self.died = True
         if not self.on_ground:
             self.vel += GRAVITY
             if self.vel.y > 100:
@@ -132,22 +151,22 @@ class Level(pygame.sprite.Sprite):
         self.pause_button_rect = self.pause_button.get_rect(
             topright=(WIDTH, 0))
         self.pause_screen = PauseScreen()
+        self.sumarize_screen = SumarizeScreen()
 
     def start_game(self):
         pygame.mixer.music.load(SOUNDS[self.data["id"]-1])
         pygame.mixer.music.play()
         tmx_data = load_pygame(self.path)
         for layer in tmx_data.visible_layers:
-            print(layer)
             if hasattr(layer, "data"):
                 for x, y, surf in layer.tiles():
                     if surf:
-                        pos = (x*TILE_SIZE, y*TILE_SIZE)
+                        pos = (x*TILE_SIZE, y*TILE_SIZE -
+                               6*TILE_SIZE)
                         Tile(pos, surf, self.tile_group)
         for obj in tmx_data.objects:
             pos = (obj.x, obj.y)
             surf = obj.image
-            print(surf)
             if surf:
                 Object(pos, surf, self.tile_group)
 
@@ -157,7 +176,13 @@ class Level(pygame.sprite.Sprite):
             window.blit(self.pause_button, self.pause_button_rect)
             self.tile_group.draw(window)
             self.player.draw(window)
-        self.pause_screen.draw(window)
+        if self.player.died:
+            self.pause = True
+            self.sumarize_screen.result = "lose"
+            self.sumarize_screen.show = True
+            self.sumarize_screen.draw(window)
+        else:
+            self.pause_screen.draw(window)
         if not self.pause:
             self.tile_group.update()
             self.player.update()
@@ -167,7 +192,5 @@ class Level(pygame.sprite.Sprite):
             if (click(self.pause_button_rect)) or keys[pygame.K_ESCAPE]:
                 self.pause_screen.show = True
                 pygame.mixer.music.pause()
-            if self.player.died:
-                pygame.mixer.music.stop()
-        self.pause = self.pause_screen.show
-        self.playing = not self.pause_screen.return_home and not self.player.died
+        self.pause = self.pause_screen.show and not self.sumarize_screen.show
+        self.playing = not self.pause_screen.return_home and not self.sumarize_screen.return_home

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="400" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="13">
- <tileset firstgid="1" source="tileset/Dark_lvl1.tsx"/>
- <tileset firstgid="51" source="Dungeon_.tsx"/>
+ <tileset firstgid="1" source="tileset_1.tsx"/>
+ <tileset firstgid="51" source="tileset_2.tsx"/>
  <objectgroup id="5" name="portal">
   <object id="2" gid="105" x="24520.3" y="1070.13" width="583.665" height="858.277"/>
  </objectgroup>

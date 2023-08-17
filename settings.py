@@ -1,11 +1,11 @@
 import pygame
-VERTICLE_TILE_NUMBER = 20
-TILE_SIZE = 16
+VERTICLE_TILE_NUMBER = 12
+TILE_SIZE = 64
 
 HEIGHT = 720
 WIDTH = 1280
 
-WINDOW_SIZE = (WIDTH, HEIGHT)
+WINDOW_SIZE = (WIDTH, VERTICLE_TILE_NUMBER*TILE_SIZE)
 FPS = 60
 
 
@@ -31,7 +31,7 @@ LEVELS = [
     {
         "id": 1,
         "name": "Level 1",
-        'terrain': 'levelData/level1/level_1_(fix).tmx'
+        'terrain': 'levelData/level1/level_1.tmx'
     },
     {
         "id": 2,
