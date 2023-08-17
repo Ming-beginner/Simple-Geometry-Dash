@@ -11,14 +11,11 @@ class SettingScreen(pygame.sprite.Sprite):
         self.surface.fill("#080907")
         self.show = False
         # Setting close button
-        self.close_button_surf = pygame.transform.scale(
-            pygame.image.load(IMAGES["close_button"]).convert_alpha(), (50, 50))
-        self.close_button_rect = self.close_button_surf.get_rect(
-            topleft=(WIDTH/6, HEIGHT/6))
+        self.close_button_surf = pygame.transform.scale(pygame.image.load(IMAGES["close_button"]).convert_alpha(), (50, 50))
+        self.close_button_rect = self.close_button_surf.get_rect(topleft=(WIDTH/6, HEIGHT/6))
         # Setting background music
         self.volume = DEFAULT_VOLUME
-        self.increase_volume_button_surf = pygame.transform.scale(pygame.image.load(
-            IMAGES["increase_volume"]).convert_alpha(), (100, 100))
+        self.increase_volume_button_surf = pygame.transform.scale(pygame.image.load(IMAGES["increase_volume"]).convert_alpha(), (100, 100))
         self.increase_volume_button_rect = self.increase_volume_button_surf.get_rect(
             center=(WIDTH/2+200, 400))
         self.decrease_volume_button_surf = pygame.transform.scale(pygame.image.load(
