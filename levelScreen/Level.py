@@ -171,8 +171,7 @@ class Level(pygame.sprite.Sprite):
             if hasattr(layer, "data"):
                 for x, y, surf in layer.tiles():
                     if surf:
-                        pos = (x*TILE_SIZE, y*TILE_SIZE -
-                               6*TILE_SIZE)
+                        pos = (x*TILE_SIZE, y*TILE_SIZE)
                         Tile(pos, surf, self.tile_group)
         for obj in tmx_data.objects:
             pos = (obj.x, obj.y)
