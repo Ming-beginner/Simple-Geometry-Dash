@@ -14,7 +14,15 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
     def update(self):
-        self.rect.x -= 5
+        # self.rect.x -= 7
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.rect.x -= 10
+
+        if keys[pygame.K_RIGHT]:
+            self.rect.x += 2
+
+        
 
 
 class Object(Tile):
@@ -22,6 +30,8 @@ class Object(Tile):
         super().__init__(pos, surf, groups)
         self.image = surf.convert_alpha()
 
+  
+        
 
 class PauseScreen(SettingScreen):
     def __init__(self):
@@ -95,7 +105,7 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = False
         self.vel = Vector2(0, 0)
         self.offset = 100
-        self.jump_amount = 16
+        self.jump_amount = 14
 
     def jump(self):
         self.vel.y = -self.jump_amount

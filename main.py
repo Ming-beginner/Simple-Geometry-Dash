@@ -50,7 +50,10 @@ while running:
         play_button.hovered = play_button.rect.collidepoint(mouse_pos)
         play_button.show = not setting_screen.show
         setting_button.hovered = setting_button.rect.collidepoint(mouse_pos)
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            running = False
+            sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
             if setting_button.rect.collidepoint(mouse_pos):
                 setting_screen.show = True
             if play_button.rect.collidepoint(mouse_pos):
