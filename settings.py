@@ -13,7 +13,7 @@ FPS = 60
 
 IMAGES = {
     "background1": "Graphics/backgrounds/background1.png",
-    "play_button": "Graphics/buttons/play.png",
+    "playing_button": "Graphics/buttons/play.png",
     "setting_button": "Graphics/buttons/setting.png",
     "greeting_text": "Graphics/texts/greeting.png",
     "close_button": "Graphics/buttons/close.png",
@@ -40,15 +40,15 @@ LEVELS = [
         'terrain': 'levelData/level1/level_1.tmx',
     },
     {
+        "id": 2,
+        "name": "Level 2",
+        'terrain': 'levelData/level1/level_1.tmx'
+    },
+    {
         "id": 3,
         "name": "Level 2",
         'terrain': 'levelData/level2/level_2.tmx'
     },
-    {
-        "id": 2,
-        "name": "Level 3",
-        'terrain': 'levelData/level3/level_3.tmx'
-    }
 ]
 PLAYER = "Graphics/player/player.png"
 GRAVITY = pygame.math.Vector2(0, 0.86)
