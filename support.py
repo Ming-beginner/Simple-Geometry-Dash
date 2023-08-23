@@ -17,7 +17,7 @@ def get_image(dir):
     
 def load_button_image(name):
     fullname = join('graphics', 'buttons', name)
-    image = pygame.image.load(fullname)
+    image = pygame.image.load(fullname).convert_alpha()
     return image
 
 
