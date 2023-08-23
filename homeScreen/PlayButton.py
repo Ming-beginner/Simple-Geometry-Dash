@@ -1,7 +1,5 @@
 import pygame
 from settings import *
-
-
 class PlayButton(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -14,8 +12,10 @@ class PlayButton(pygame.sprite.Sprite):
 
     def update(self):
         if(self.hovered and self.show):
+            self.pos = (WIDTH/2 - 20, 500 - 20)
             self.image = pygame.transform.scale(
                 pygame.image.load(IMAGES["play_button"]), (160, 160))
         else:
+            self.pos = (WIDTH/2, 500)
             self.image = pygame.transform.scale(
                 pygame.image.load(IMAGES["play_button"]), (150, 150))

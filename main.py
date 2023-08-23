@@ -2,14 +2,15 @@ import pygame
 import sys
 from random import randint
 from settings import *
-from HomeScreen.PlayButton import PlayButton
-from HomeScreen.SettingButton import SettingButton
-from HomeScreen.GreetingText import GreetingText
+# from HomeScreen.PlayButton import PlayButton
+# from HomeScreen.SettingButton import SettingButton
+# from HomeScreen.GreetingText import GreetingText
 
 from settingScreen.Screen import SettingScreen
 from levelScreen.Screen import LevelScreen
 from levelScreen.Screen import Level
 
+from HomeScreen import HomeScreen
 
 pygame.init()
 
@@ -24,11 +25,11 @@ overlay.fill("black")
 overlay.set_alpha(160)
 
 # Home menu
-play_button = PlayButton()
-setting_button = SettingButton()
-greeting_text = GreetingText()
-screen_menu = pygame.sprite.Group()
-screen_menu.add(play_button, setting_button, greeting_text)
+# play_button = PlayButton()
+# setting_button = SettingButton()
+# greeting_text = GreetingText()
+# home_screen = pygame.sprite.Group()
+# home_screen.add(play_button, setting_button, greeting_text)
 
 # Background music
 pygame.mixer.music.load(SOUNDS[2])
@@ -40,15 +41,16 @@ pygame.mixer.music.set_volume(DEFAULT_VOLUME/10)
 # Setting menu
 setting_screen = SettingScreen()
 level_screen = LevelScreen()
+home_screen = HomeScreen()
 
 
 
 def main():
     # game loop
-    running = True
+    is_running = True
     status = "Home_Screen"
     
-    while running:
+    while is_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -56,30 +58,22 @@ def main():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 running = False
                 sys.exit()
-                
-            # Mouse Setting
-            mouse_pos = pygame.mouse.get_pos()
-            play_button.hovered = play_button.rect.collidepoint(mouse_pos)
-            play_button.show = not setting_screen.show
-            setting_button.hovered = setting_button.rect.collidepoint(mouse_pos)
             
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if setting_button.rect.collidepoint(mouse_pos):
+                    # status = "setting_screen"
                     setting_screen.show = True
-                else:
-                    setting_screen.show = False
                     
                 if play_button.rect.collidepoint(mouse_pos):
+                    # status = "level_screen"
                     level_screen.show = True
 
                     
-        window_screen.fill("#ffffff")
-        window_screen.blit(background, (0, 0))
-        window_screen.blit(overlay, (0, 0))
+        
         
         if status == 'Home_Screen':
-            screen_menu.draw(window_screen)
-            screen_menu.update()
+            home_screen.draw(window_screen)
+            home_screen.update()
             # setting_screen.draw(window_screen)
             level_screen.draw(window_screen)
         

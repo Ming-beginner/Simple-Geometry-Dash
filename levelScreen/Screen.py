@@ -13,8 +13,7 @@ class LevelScreen(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(pygame.image.load(
             IMAGES["background1"]).convert(), WINDOW_SIZE)
         self.rect = self.image.get_rect(topleft=(0, 0))
-        self.return_button = pygame.transform.scale(
-            pygame.image.load(IMAGES["return_button"]).convert_alpha(), (50, 50))
+        self.return_button = pygame.transform.scale(pygame.image.load(IMAGES["return_button"]).convert_alpha(), (50, 50))
         self.return_button_rect = self.return_button.get_rect(topleft=(0, 0))
         self.overlay = pygame.Surface((WINDOW_SIZE))
         self.overlay.fill("#111111")
@@ -32,7 +31,7 @@ class LevelScreen(pygame.sprite.Sprite):
         if self.show and not self.game_play:
             if click(self.return_button_rect):
                 self.show = False
-                play_bg_music()
+                # play_bg_music()
             for level in LEVELS:
                 level_button = LevelButton(level["id"])
                 level_button.draw(self.image)

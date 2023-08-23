@@ -18,10 +18,10 @@ class Tile(pygame.sprite.Sprite):
         # self.rect.x -= 7
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            self.rect.x += 7
+            self.rect.x += 10
 
         if keys[pygame.K_RIGHT]:
-            self.rect.x -= 7
+            self.rect.x -= 10
 
 class Object(Tile):
     def __init__(self, pos, surf, groups):

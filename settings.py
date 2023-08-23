@@ -45,6 +45,7 @@ LEVELS = [
         "id": 2,
         "name": "Level 2",
         'terrain': 'levelData/level1/level_1.tmx'
+        
     },
     {
         "id": 3,
