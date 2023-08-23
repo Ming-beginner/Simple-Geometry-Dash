@@ -23,13 +23,12 @@ class Tile(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT]:
             self.rect.x -= 10
 
+
 class Object(Tile):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
         self.image = surf.convert_alpha()
 
-  
-        
 
 class PauseScreen(SettingScreen):
     def __init__(self):
@@ -93,9 +92,6 @@ class SumarizeScreen(PauseScreen):
                 pygame.mixer.music.stop()
 
 
-
-
-
 class Level(pygame.sprite.Sprite):
     def __init__(self, data):
         self.path = data["terrain"]
@@ -146,7 +142,7 @@ class Level(pygame.sprite.Sprite):
             self.pause_screen.draw(window)
         if not self.pause:
             self.tile_group.update()
-            self.player.update()
+            self.player.update(window)
             self.player.collide(self.player.vel.y, self.tile_group)
             self.player.collide(0, self.tile_group)
             keys = pygame.key.get_pressed()
