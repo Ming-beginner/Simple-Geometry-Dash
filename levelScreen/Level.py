@@ -10,24 +10,24 @@ from Player import Player
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(groups)
-        self.image = pygame.transform.scale(
-            surf.convert_alpha(), (TILE_SIZE, TILE_SIZE))
+        self.image = surf.convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
 
     def update(self):
-        # self.rect.x -= 7
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            self.rect.x += 7
+        self.rect.x -= 8
+        # keys = pygame.key.get_pressed()
+        # if keys[pygame.K_LEFT]:
+        #     self.rect.x += 7
 
-        if keys[pygame.K_RIGHT]:
-            self.rect.x -= 7
+        # if keys[pygame.K_RIGHT]:
+        #     self.rect.x -= 7
 
 
 class Object(Tile):
     def __init__(self, pos, surf, groups):
         super().__init__(pos, surf, groups)
         self.image = surf.convert_alpha()
+        self.rect = self.image.get_rect(topleft=pos)
 
 
 class PauseScreen(SettingScreen):
@@ -96,6 +96,7 @@ class Level(pygame.sprite.Sprite):
     def __init__(self, data):
         self.path = data["terrain"]
         self.tile_group = pygame.sprite.Group()
+        self.object_group = pygame.sprite.Group()
         self.surface = pygame.transform.scale(
             pygame.image.load(IMAGES["background1"]), WINDOW_SIZE)
         self.rect = self.surface.get_rect(topleft=(0, 0))
@@ -124,14 +125,16 @@ class Level(pygame.sprite.Sprite):
         for obj in tmx_data.objects:
             pos = (obj.x, obj.y)
             surf = obj.image
+            print(pos, surf)
             if surf:
-                Object(pos, surf, self.tile_group)
+                Object(pos, surf, self.object_group)
 
     def draw(self, window):
         if self.playing:
             window.blit(self.surface, self.rect)
             window.blit(self.pause_button, self.pause_button_rect)
             self.tile_group.draw(window)
+            self.object_group.draw(window)
             self.player.draw(window)
         if self.player.died:
             self.pause = True
@@ -142,6 +145,7 @@ class Level(pygame.sprite.Sprite):
             self.pause_screen.draw(window)
         if not self.pause:
             self.tile_group.update()
+            self.object_group.update()
             self.player.update(window)
             self.player.collide(self.player.vel.y, self.tile_group)
             self.player.collide(0, self.tile_group)

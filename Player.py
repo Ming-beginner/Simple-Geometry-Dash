@@ -20,7 +20,8 @@ class Player(pygame.sprite.Sprite):
         self.angle = 0
 
     def blit_rotate(self, surf, angle: float, pos, originpos):
-        w, h = self.image.get_size()
+        # get a rotated image
+        w, h = TILE_SIZE, TILE_SIZE
         box = [Vector2(p) for p in [(0, 0), (w, 0), (w, -h), (0, -h)]]
         box_rotate = [p.rotate(angle) for p in box]
 
@@ -41,6 +42,7 @@ class Player(pygame.sprite.Sprite):
         # get a rotated image
         rotated_image = pygame.transform.rotozoom(self.image, angle, 1)
         self.image = rotated_image
+        self.rect = self.image.get_rect(topleft=origin)
         # rotate and blit the image
         surf.blit(rotated_image, origin)
 
@@ -63,12 +65,14 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         self.vel.y = -self.jump_amount
-        # this may be the angle needed to do a 360 deg turn in the length covered in one jump by player
 
-    def collide(self, yvel, tiles):
+    def collide(self, yvel, tiles, object=False):
         for tile in tiles:
             if pygame.sprite.collide_rect(self, tile):
-                if yvel > 0:
+                if(object):
+                    self.win = True
+
+                elif yvel > 0:
                     self.rect.bottom = tile.rect.top
                     self.vel.y = 0
                     self.on_ground = True
@@ -86,8 +90,10 @@ class Player(pygame.sprite.Sprite):
             self.jump()
         if self.rect.bottom >= HEIGHT:
             self.died = True
+            pass
         if not self.on_ground:
-            #self.blit_rotate(window, self.angle, self.rect.center, (16, 16))
+            self.angle -= 10
+            #self.blit_rotate(window, self.angle, self.rect.center, (32, 32))
             self.vel += GRAVITY
             if self.vel.y > 100:
                 self.vel.y = 100
@@ -99,10 +105,4 @@ class Player(pygame.sprite.Sprite):
                                  window)
 
     def draw(self, window):
-        if not self.on_ground:
-            """rotate the player by an angle and blit it if player is jumping"""
-            self.angle -= 8.1712  # this may be the angle needed to do a 360 deg turn in the length covered in one jump by player
-            self.blit_rotate(window, self.angle, self.rect.center, (16, 16))
-        else:
-            """if player.isjump is false, then just blit it normally(by using Group().draw() for sprites"""
-            window.blit(self.image, self.rect)
+        window.blit(self.image, self.rect)

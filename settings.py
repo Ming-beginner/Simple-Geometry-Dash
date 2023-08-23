@@ -8,7 +8,6 @@ WIDTH = 1280
 WINDOW_SIZE = (WIDTH, VERTICLE_TILE_NUMBER*TILE_SIZE)
 
 
-
 FPS = 60
 
 
@@ -27,29 +26,28 @@ IMAGES = {
 }
 
 SOUNDS = [
-            "audio/pygame_soundtrack_1.wav",
-            "audio/pygame_soundtrack_2.wav", 
-            "audio/pygame_soundtrack_3.wav"
-        ]
-    
+    "audio/pygame_soundtrack_1.wav",
+    "audio/pygame_soundtrack_2.wav",
+    "audio/pygame_soundtrack_2.wav"
+]
+
 DEFAULT_VOLUME = 5
 FONT = "font/font.ttf"
 LEVELS = [
     {
-        "id"    : 1,
-        "name"  : "Level 1",
+        "id": 1,
+        "name": "Level 1",
         'terrain': 'levelData/level1/level_1.tmx',
-        'sound' : SOUNDS[2]
-    },
-    {
-        "id": 2,
-        "name": "Level 2",
-        'terrain': 'levelData/level1/level_1.tmx'
     },
     {
         "id": 3,
+        "name": "Level 2",
+        'terrain': 'levelData/level2/level_2.tmx'
+    },
+    {
+        "id": 2,
         "name": "Level 3",
-        'terrain': 'levelData/level1/level_1.tmx'
+        'terrain': 'levelData/level3/level_3.tmx'
     }
 ]
 PLAYER = "Graphics/player/player.png"
