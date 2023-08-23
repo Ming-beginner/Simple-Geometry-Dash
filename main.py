@@ -44,6 +44,9 @@ def main():
                     setting_screen.increase_volume()
                 if setting_screen.decrease_volume_button.rect.collidepoint(mouse_pos):
                     setting_screen.decrease_volume()
+                if level_screen.return_button.rect.collidepoint(mouse_pos):
+                    level_screen.state = False
+                    home_screen.state = True
 
         home_screen.draw(window_screen)
         setting_screen.draw(window_screen)

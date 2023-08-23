@@ -2,7 +2,6 @@ import pygame
 from support import click
 from pytmx.util_pygame import load_pygame
 from settings import *
-from pygame.math import Vector2
 from SettingScreen import SettingScreen
 from Player import Player
 
@@ -15,13 +14,7 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
     def update(self):
-        # self.rect.x -= 7
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            self.rect.x += 10
-
-        if keys[pygame.K_RIGHT]:
-            self.rect.x -= 10
+        self.rect.x -= 8
 
 
 class Object(Tile):
@@ -36,50 +29,48 @@ class PauseScreen(SettingScreen):
         self.home_button = pygame.transform.scale(pygame.image.load(
             IMAGES["home_button"]).convert_alpha(), (100, 100))
         self.home_button_rect = self.home_button.get_rect(
-            midbottom=(WIDTH/2-100, HEIGHT*5/6))
+            midbottom=(WIDTH/2-100, HEIGHT*5/6-20))
         self.play_button = pygame.transform.scale(pygame.image.load(
-            IMAGES["play_button"]).convert_alpha(), (100, 100))
+            IMAGES["playing_button"]).convert_alpha(), (100, 100))
         self.play_button_rect = self.play_button.get_rect(
-            midbottom=(WIDTH/2+100, HEIGHT*5/6))
+            midbottom=(WIDTH/2+100, HEIGHT*5/6-20))
         self.return_home = False
 
     def draw(self, window):
         if(self.show):
             window.blit(self.surface, (WIDTH/6, HEIGHT/6))
-            window.blit(self.volume_surf, self.volume_rect)
             window.blit(self.text_surf, self.text_rect)
             window.blit(self.play_button, self.play_button_rect)
             window.blit(self.home_button, self.home_button_rect)
-            window.blit(self.increase_volume_button_surf,
-                        self.increase_volume_button_rect)
-            window.blit(self.decrease_volume_button_surf,
-                        self.decrease_volume_button_rect)
-            if click(self.increase_volume_button_rect):
-                self.increase_volume()
-            elif click(self.decrease_volume_button_rect):
-                self.decrease_volume()
-            elif click(self.play_button_rect):
-                self.show = False
-                pygame.mixer.music.unpause()
-            elif click(self.home_button_rect):
-                self.return_home = True
-                self.show = False
-                pygame.mixer.music.stop()
+            mouse_pos = pygame.mouse.get_pos()
+            if pygame.mouse.get_pressed()[0]:
+                if self.play_button_rect.collidepoint(mouse_pos):
+                    self.show = False
+                    pygame.mixer.music.unpause()
+                if self.home_button_rect.collidepoint(mouse_pos):
+                    self.return_home = True
+                    self.show = False
+                    pygame.mixer.music.stop()
 
 
 class SumarizeScreen(PauseScreen):
     def __init__(self):
         super().__init__()
         self.result = "lose"
-        self.title = "YOU WON!!!" if self.result == "win" else "YOU LOST!!!"
+        self.title = "YOU LOST!!!"
         self.text_surf = self.font.render(
             self.title, False, "#ffffff")
         self.text_rect = self.text_surf.get_rect(
-            center=(WIDTH/2, HEIGHT/6+50))
+            center=(WIDTH/2, HEIGHT/6+100))
         self.home = pygame.transform.scale(pygame.image.load(
-            IMAGES["home_button"]).convert_alpha(), (200, 200))
+            IMAGES["home_button"]).convert_alpha(), (120, 120))
         self.home_rect = self.home.get_rect(
-            center=(WIDTH/2, HEIGHT/2))
+            center=(WIDTH/2, HEIGHT/2+160))
+
+    def update_title(self):
+        self.title = "YOU WON!!!" if self.result == "win" else "YOU LOST!!!"
+        self.text_surf = self.font.render(
+            self.title, False, "#ffffff")
 
     def draw(self, window):
         if self.show:
@@ -96,6 +87,7 @@ class Level(pygame.sprite.Sprite):
     def __init__(self, data):
         self.path = data["terrain"]
         self.tile_group = pygame.sprite.Group()
+        self.object_group = pygame.sprite.Group()
         self.surface = pygame.transform.scale(
             pygame.image.load(IMAGES["background1"]), WINDOW_SIZE)
         self.rect = self.surface.get_rect(topleft=(0, 0))
@@ -120,31 +112,48 @@ class Level(pygame.sprite.Sprite):
                 for x, y, surf in layer.tiles():
                     if surf:
                         pos = (x*TILE_SIZE, y*TILE_SIZE)
+                        if(self.data["id"]-1 == 1):
+                            pos = (x*TILE_SIZE*4, y*TILE_SIZE*4)
                         Tile(pos, surf, self.tile_group)
         for obj in tmx_data.objects:
             pos = (obj.x, obj.y)
+            if(self.data["id"]-1 == 1):
+                pos = (obj.x, obj.y)
+            print(pos)
             surf = obj.image
             if surf:
-                Object(pos, surf, self.tile_group)
+                Object(pos, surf, self.object_group)
 
     def draw(self, window):
         if self.playing:
             window.blit(self.surface, self.rect)
             window.blit(self.pause_button, self.pause_button_rect)
             self.tile_group.draw(window)
+            self.object_group.draw(window)
             self.player.draw(window)
+        if self.player.win:
+            self.pause = True
+            self.sumarize_screen.result = "win"
+            self.sumarize_screen.update_title()
+            self.sumarize_screen.show = True
+            self.sumarize_screen.draw(window)
         if self.player.died:
             self.pause = True
             self.sumarize_screen.result = "lose"
             self.sumarize_screen.show = True
             self.sumarize_screen.draw(window)
+            pygame.mixer.music.stop()
         else:
             self.pause_screen.draw(window)
         if not self.pause:
             self.tile_group.update()
+            self.object_group.update()
             self.player.update(window)
             self.player.collide(self.player.vel.y, self.tile_group)
             self.player.collide(0, self.tile_group)
+            for obj in self.object_group:
+                if self.player.rect.x >= obj.rect.x:
+                    self.player.win = True
             keys = pygame.key.get_pressed()
             if (click(self.pause_button_rect)) or keys[pygame.K_ESCAPE]:
                 self.pause_screen.show = True

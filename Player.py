@@ -66,23 +66,20 @@ class Player(pygame.sprite.Sprite):
     def jump(self):
         self.vel.y = -self.jump_amount
 
-    def collide(self, yvel, tiles, object=False):
+    def collide(self, yvel, tiles):
         for tile in tiles:
             if pygame.sprite.collide_rect(self, tile):
-                if(object):
-                    self.win = True
-
-                elif yvel > 0:
+                if yvel > 0:
                     self.rect.bottom = tile.rect.top
                     self.vel.y = 0
                     self.on_ground = True
                 elif yvel < 0:
                     self.rect.top = tile.rect.bottom
-                    self.died = True
+                    #self.died = True
                 else:
                     self.vel.x = 0
                     self.rect.right = tile.rect.left
-                    self.died = True
+                    #self.died = True
 
     def update(self, window):
         keys = pygame.key.get_pressed()

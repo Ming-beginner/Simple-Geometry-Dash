@@ -28,7 +28,7 @@ IMAGES = {
 SOUNDS = [
     "audio/pygame_soundtrack_1.wav",
     "audio/pygame_soundtrack_2.wav",
-    "audio/pygame_soundtrack_2.wav"
+    "audio/pygame_soundtrack_3.wav"
 ]
 
 DEFAULT_VOLUME = 5
@@ -42,12 +42,12 @@ LEVELS = [
     {
         "id": 2,
         "name": "Level 2",
-        'terrain': 'levelData/level1/level_1.tmx'
+        'terrain': 'levelData/level2/level_2.tmx'
     },
     {
         "id": 3,
-        "name": "Level 2",
-        'terrain': 'levelData/level2/level_2.tmx'
+        "name": "Level 3",
+        'terrain': 'levelData/level3/level_3.tmx'
     },
 ]
 PLAYER = "Graphics/player/player.png"
