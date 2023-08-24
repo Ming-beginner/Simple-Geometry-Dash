@@ -1,6 +1,5 @@
 import pygame
 from settings import *
-from support import load_button_image
 
 
 class Button(pygame.sprite.Sprite):
@@ -14,7 +13,7 @@ class Button(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(input_x, input_y))
 
     def check_hover_button(self):
-        if self.is_hovered() and (self.type != "close_button") and (self.type != "increase_volume") and (self.type != "decrease_volume"):
+        if self.is_hovered() and (self.type != "increase_volume") and (self.type != "decrease_volume"):
             self.image = pygame.transform.scale(pygame.image.load(
                 IMAGES[self.type]).convert_alpha(), (self.rect.width+10, self.rect.height+10))
         else:
