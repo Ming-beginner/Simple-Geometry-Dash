@@ -75,11 +75,11 @@ class Player(pygame.sprite.Sprite):
                     self.on_ground = True
                 elif yvel < 0:
                     self.rect.top = tile.rect.bottom
-                    #self.died = True
+                    self.died = True
                 else:
                     self.vel.x = 0
                     self.rect.right = tile.rect.left
-                    #self.died = True
+                    self.died = True
 
     def update(self, window):
         keys = pygame.key.get_pressed()

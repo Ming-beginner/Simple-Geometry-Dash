@@ -50,5 +50,5 @@ LEVELS = [
         'terrain': 'levelData/level3/level_3.tmx'
     },
 ]
-PLAYER = "Graphics/player/player.png"
+PLAYER = "graphics/player/player.png"
 GRAVITY = pygame.math.Vector2(0, 0.86)

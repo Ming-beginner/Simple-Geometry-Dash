@@ -112,14 +112,11 @@ class Level(pygame.sprite.Sprite):
                 for x, y, surf in layer.tiles():
                     if surf:
                         pos = (x*TILE_SIZE, y*TILE_SIZE)
-                        if(self.data["id"]-1 == 1):
-                            pos = (x*TILE_SIZE*4, y*TILE_SIZE*4)
                         Tile(pos, surf, self.tile_group)
         for obj in tmx_data.objects:
             pos = (obj.x, obj.y)
-            if(self.data["id"]-1 == 1):
-                pos = (obj.x, obj.y)
-            print(pos)
+            if(self.data["id"] == 1):
+                pos = (obj.x*4, obj.y*4)
             surf = obj.image
             if surf:
                 Object(pos, surf, self.object_group)
