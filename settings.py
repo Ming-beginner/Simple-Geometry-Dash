@@ -32,7 +32,7 @@ SOUNDS = [
 ]
 
 DEFAULT_VOLUME = 5
-FONT = "font/font.ttf"
+FONT = "font/font.otf"
 LEVELS = [
     {
         "id": 1,
