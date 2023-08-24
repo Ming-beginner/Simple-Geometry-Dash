@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.particles = []
         self.angle = 0
         self.rotate_image = None
+        self.is_jump = False
 
     def blitRotate(self, surf, image, pos, originpos: tuple, angle: float):
         w, h = image.get_size()
@@ -26,22 +27,22 @@ class Player(pygame.sprite.Sprite):
         box_rotate = [p.rotate(angle) for p in box]
 
         # make sure the player does not overlap, uses a few lambda functions(new things that we did not learn about number1)
-        min_box = (min(box_rotate, key=lambda p: p[0])[0], min(box_rotate, key=lambda p: p[1])[1])
-        max_box = (max(box_rotate, key=lambda p: p[0])[0], max(box_rotate, key=lambda p: p[1])[1])
+        min_box = (min(box_rotate, key=lambda p: p[0])[
+                   0], min(box_rotate, key=lambda p: p[1])[1])
+        max_box = (max(box_rotate, key=lambda p: p[0])[
+                   0], max(box_rotate, key=lambda p: p[1])[1])
         # calculate the translation of the pivot
         pivot = Vector2(originpos[0], -originpos[1])
         pivot_rotate = pivot.rotate(angle)
         pivot_move = pivot_rotate - pivot
 
         # calculate the upper left origin of the rotated image
-        origin = (pos[0] - originpos[0] + min_box[0] - pivot_move[0], pos[1] - originpos[1] - max_box[1] + pivot_move[1])
+        origin = (pos[0] - originpos[0] + min_box[0] - pivot_move[0],
+                  pos[1] - originpos[1] - max_box[1] + pivot_move[1])
 
         # get a rotated image
         rotated_image = pygame.transform.rotozoom(image, angle, 1)
-
-    
-            surf.blit(rotated_image, origin)
-        
+        surf.blit(rotated_image, origin)
 
     def draw_particle_trail(self, x, y, window, color=(255, 255, 255)):
         """draws a trail of particle-rects in a line at random positions behind the player"""
@@ -70,6 +71,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.bottom = tile.rect.top
                     self.vel.y = 0
                     self.on_ground = True
+                    self.is_jump = False
                 elif yvel < 0:
                     self.rect.top = tile.rect.bottom
                     self.died = True
@@ -80,10 +82,11 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, window):
         keys = pygame.key.get_pressed()
-        if (keys[pygame.K_SPACE] or keys[pygame.K_UP]) and self.on_ground:
+        if (keys[pygame.K_SPACE] or keys[pygame.K_UP]):
+            self.is_jump = True
+        if self.is_jump and self.on_ground:
             self.jump()
-            self.on_ground = False
-            
+
         if self.rect.bottom >= HEIGHT:
             self.died = True
             pass
@@ -93,20 +96,17 @@ class Player(pygame.sprite.Sprite):
             if self.vel.y > 100:
                 self.vel.y = 100
 
-            
-                
-            
         self.rect.top += self.vel.y
+        self.on_ground = False
         if self.rect.bottom >= HEIGHT:
             self.rect.bottom = HEIGHT
-        self.on_ground = False
         self.draw_particle_trail(self.rect.left - 1, self.rect.bottom + 2,
-                            window)
+                                 window)
 
     def draw(self, window):
-        if self.on_ground == True:
+        if not self.is_jump:
             window.blit(self.image, self.rect)
         else:
-            self.angle -= 8.1712
-            self.blitRotate(window, self.image, self.rect.center, [32, 32], self.angle)
-            
+            self.angle -= 0.0001
+            self.blitRotate(window, self.image, self.rect.center, [
+                            32, 32], self.angle)
